@@ -1,42 +1,54 @@
-name: Webphin Production
+name: Production CI/CD
 
 on:
+  pull_request:
+    branches: [main]
+
   push:
-    branches:
-      - main
+    branches: [main]
+
+  workflow_dispatch:
 
 permissions:
   contents: read
+  id-token: write
 
-concurrency:
-  group: webphin-production
-  cancel-in-progress: false
+env:
+  NODE_VERSION: '24'
+
+  # Application-specific deployment configuration
+  APP_NAME: webphin
+  DEPLOY_PATH: /srv/webphin/apps/webphin
+  COMPOSE_SERVICE: webphin
+  TAILSCALE_TARGET: webphin-production-shared-vps1
 
 jobs:
   ci:
-    name: Validate application
+    name: Validate
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
-      - name: Checkout triggering commit
+      - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: ${{ env.NODE_VERSION }}
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build application
+      - name: Build
         run: npm run build
 
   deploy:
     name: Deploy production
+    if: github.event_name != 'pull_request'
     needs: ci
+
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -44,78 +56,106 @@ jobs:
       name: production
       url: https://www.webphin.com
 
-    env:
-      DEPLOY_SHA: ${{ github.sha }}
+    concurrency:
+      group: production-${{ github.repository }}
+      cancel-in-progress: false
 
     steps:
+      - name: Connect to tailnet
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          audience: ${{ secrets.TS_AUDIENCE }}
+          tags: tag:ci
+          ping: ${{ env.TAILSCALE_TARGET }}
+
       - name: Configure SSH
         env:
-          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
-          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+          SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
         run: |
           set -euo pipefail
 
-          install -m 700 -d ~/.ssh
+          install -d -m 700 "$HOME/.ssh"
 
-          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$SSH_PRIVATE_KEY" \
+            > "$HOME/.ssh/deploy_key"
 
-          printf '%s\n' "$VPS_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/known_hosts
+          printf '%s\n' "$SSH_KNOWN_HOSTS" \
+            > "$HOME/.ssh/known_hosts"
+
+          chmod 600 \
+            "$HOME/.ssh/deploy_key" \
+            "$HOME/.ssh/known_hosts"
 
       - name: Deploy exact commit
         env:
-          VPS_HOST: ${{ secrets.VPS_HOST }}
+          DEPLOY_SHA: ${{ github.sha }}
           VPS_USER: ${{ secrets.VPS_USER }}
         run: |
           set -euo pipefail
 
           ssh \
             -o BatchMode=yes \
+            -o IdentityAgent=none \
             -o IdentitiesOnly=yes \
-            -i ~/.ssh/id_ed25519 \
-            "$VPS_USER@$VPS_HOST" \
-            "DEPLOY_SHA='$DEPLOY_SHA' bash -s" <<'REMOTE'
-              set -euo pipefail
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$HOME/.ssh/known_hosts" \
+            -o ConnectTimeout=10 \
+            -i "$HOME/.ssh/deploy_key" \
+            "$VPS_USER@$TAILSCALE_TARGET" \
+            bash -s -- \
+              "$DEPLOY_SHA" \
+              "$DEPLOY_PATH" \
+              "$COMPOSE_SERVICE" <<'REMOTE'
 
-              APP_DIR="/srv/webphin/apps/webphin"
+          set -euo pipefail
 
-              cd "$APP_DIR"
+          DEPLOY_SHA="$1"
+          DEPLOY_PATH="$2"
+          COMPOSE_SERVICE="$3"
 
-              echo "=== Webphin production deployment ==="
-              echo "Target commit: $DEPLOY_SHA"
+          cd "$DEPLOY_PATH"
 
-              echo "Fetching repository..."
-              git fetch --prune origin
+          echo "Fetching repository..."
+          git fetch --prune origin main
 
-              echo "Verifying target commit..."
-              git cat-file -e "${DEPLOY_SHA}^{commit}"
+          REMOTE_MAIN="$(git rev-parse origin/main)"
 
-              echo "Synchronizing production checkout..."
-              git reset --hard "$DEPLOY_SHA"
+          if [ "$DEPLOY_SHA" != "$REMOTE_MAIN" ]; then
+              echo "Skipping stale deployment."
+              echo "Requested: $DEPLOY_SHA"
+              echo "Current main: $REMOTE_MAIN"
+              exit 0
+          fi
 
-              echo "Building production Docker image..."
-              docker compose build
+          git cat-file -e "${DEPLOY_SHA}^{commit}"
 
-              echo "Deploying application..."
-              docker compose up \
-                -d \
-                --wait \
-                --wait-timeout 120
+          echo "Deploying $DEPLOY_SHA..."
+          git reset --hard "$DEPLOY_SHA"
 
-              echo "Verifying deployed commit..."
-              ACTUAL_SHA="$(git rev-parse HEAD)"
+          echo "Building image..."
+          docker compose build "$COMPOSE_SERVICE"
 
-              if [ "$ACTUAL_SHA" != "$DEPLOY_SHA" ]; then
-                echo "ERROR: deployed Git commit does not match requested commit."
-                echo "Expected: $DEPLOY_SHA"
-                echo "Actual:   $ACTUAL_SHA"
-                exit 1
-              fi
+          echo "Starting application..."
 
-              echo "Production container status:"
+          if ! docker compose up \
+              -d \
+              --wait \
+              --wait-timeout 120 \
+              "$COMPOSE_SERVICE"
+          then
+              echo "Deployment health check failed."
+
               docker compose ps
+              docker compose logs \
+                --tail=100 \
+                "$COMPOSE_SERVICE"
 
-              echo "Deployment successful."
-              echo "Deployed commit: $ACTUAL_SHA"
+              exit 1
+          fi
+
+          echo "Deployment healthy."
+          docker compose ps
+
           REMOTE
