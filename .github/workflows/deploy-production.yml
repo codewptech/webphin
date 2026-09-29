@@ -1,0 +1,121 @@
+name: Webphin Production
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: webphin-production
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    name: Validate application
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout triggering commit
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+  deploy:
+    name: Deploy production
+    needs: ci
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    environment:
+      name: production
+      url: https://www.webphin.com
+
+    env:
+      DEPLOY_SHA: ${{ github.sha }}
+
+    steps:
+      - name: Configure SSH
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+
+          install -m 700 -d ~/.ssh
+
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+          printf '%s\n' "$VPS_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Deploy exact commit
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          set -euo pipefail
+
+          ssh \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -i ~/.ssh/id_ed25519 \
+            "$VPS_USER@$VPS_HOST" \
+            "DEPLOY_SHA='$DEPLOY_SHA' bash -s" <<'REMOTE'
+              set -euo pipefail
+
+              APP_DIR="/srv/webphin/apps/webphin"
+
+              cd "$APP_DIR"
+
+              echo "=== Webphin production deployment ==="
+              echo "Target commit: $DEPLOY_SHA"
+
+              echo "Fetching repository..."
+              git fetch --prune origin
+
+              echo "Verifying target commit..."
+              git cat-file -e "${DEPLOY_SHA}^{commit}"
+
+              echo "Synchronizing production checkout..."
+              git reset --hard "$DEPLOY_SHA"
+
+              echo "Building production Docker image..."
+              docker compose build
+
+              echo "Deploying application..."
+              docker compose up \
+                -d \
+                --wait \
+                --wait-timeout 120
+
+              echo "Verifying deployed commit..."
+              ACTUAL_SHA="$(git rev-parse HEAD)"
+
+              if [ "$ACTUAL_SHA" != "$DEPLOY_SHA" ]; then
+                echo "ERROR: deployed Git commit does not match requested commit."
+                echo "Expected: $DEPLOY_SHA"
+                echo "Actual:   $ACTUAL_SHA"
+                exit 1
+              fi
+
+              echo "Production container status:"
+              docker compose ps
+
+              echo "Deployment successful."
+              echo "Deployed commit: $ACTUAL_SHA"
+          REMOTE
