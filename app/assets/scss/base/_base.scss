@@ -1,0 +1,37 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+html {
+  background: $color-background;
+  color: $color-text;
+}
+
+body {
+  min-height: 100vh;
+  background: $color-background;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgb(227 40 47 / 18%);
+}
+
+:focus-visible {
+  @include focus-ring;
+}
+
+.page-container {
+  width: 100%;
+  max-width: $container-max-width;
+  margin-inline: auto;
+  padding-inline: $container-padding-mobile;
+
+  @include md {
+    padding-inline: $container-padding-tablet;
+  }
+
+  @include xl {
+    padding-inline: $container-padding-desktop;
+  }
+}

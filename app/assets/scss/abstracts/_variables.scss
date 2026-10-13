@@ -1,0 +1,118 @@
+// --------------------------------------------------
+// Brand
+// --------------------------------------------------
+
+$color-brand-red: #e3282f;
+$color-brand-red-dark: #c71f26;
+
+$color-brand-blue: #146799;
+$color-brand-orange: #ff7a24;
+$color-brand-magenta: #e5008d;
+$color-brand-yellow: #f2cf72;
+
+// --------------------------------------------------
+// Neutrals
+// --------------------------------------------------
+
+$color-black: #111317;
+
+$color-text: #191c21;
+$color-text-secondary: #606773;
+$color-text-muted: #818894;
+
+$color-white: #ffffff;
+
+$color-background: #ffffff;
+$color-background-soft: #f7f8fa;
+$color-background-subtle: #f1f3f5;
+
+$color-border: #e5e8ec;
+$color-border-strong: #d6dae0;
+
+// --------------------------------------------------
+// Dark surfaces
+// --------------------------------------------------
+
+$color-dark-surface: #111317;
+$color-dark-surface-secondary: #171a1f;
+$color-dark-border: rgb(255 255 255 / 10%);
+
+$color-dark-text: #ffffff;
+$color-dark-text-secondary: rgb(255 255 255 / 68%);
+$color-dark-text-muted: rgb(255 255 255 / 48%);
+
+// --------------------------------------------------
+// Typography
+// --------------------------------------------------
+
+$font-body:
+  "Inter",
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  sans-serif;
+
+$font-heading:
+  "Manrope",
+  "Inter",
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  sans-serif;
+
+// --------------------------------------------------
+// Layout
+// --------------------------------------------------
+
+$container-max-width: 1240px;
+
+$container-padding-mobile: 20px;
+$container-padding-tablet: 32px;
+$container-padding-desktop: 40px;
+
+// --------------------------------------------------
+// Section spacing
+// --------------------------------------------------
+
+$section-spacing-sm: clamp(4rem, 8vw, 6rem);
+$section-spacing-md: clamp(5rem, 10vw, 8rem);
+$section-spacing-lg: clamp(6rem, 12vw, 10rem);
+
+// --------------------------------------------------
+// Breakpoints
+// --------------------------------------------------
+
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+// --------------------------------------------------
+// Radius
+// --------------------------------------------------
+
+$radius-sm: 8px;
+$radius-md: 14px;
+$radius-lg: 20px;
+$radius-xl: 28px;
+$radius-pill: 999px;
+
+// --------------------------------------------------
+// Shadows
+// --------------------------------------------------
+
+$shadow-sm:
+  0 1px 2px rgb(17 19 23 / 4%),
+  0 2px 8px rgb(17 19 23 / 5%);
+
+$shadow-md: 0 8px 30px rgb(17 19 23 / 8%);
+
+$shadow-lg: 0 20px 60px rgb(17 19 23 / 10%);
+
+// --------------------------------------------------
+// Motion
+// --------------------------------------------------
+
+$transition-fast: 150ms ease;
+$transition-base: 250ms ease;
+$transition-slow: 400ms ease;

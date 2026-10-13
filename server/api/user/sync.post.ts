@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   if (!profile?.sub || !profile.email) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Authenticated user profile is incomplete.',
+      statusMessage: "Authenticated user profile is incomplete.",
     });
   }
 

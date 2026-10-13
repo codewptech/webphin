@@ -10,21 +10,23 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@auth0/auth0-nuxt": "^1.2.0",
-    "@prisma/client": "^6.19.3",
-    "nuxt": "^4.5.2",
-    "vue": "^3.5.43",
-    "vue-router": "^5.3.1"
-  },
-  "allowScripts": {
-    "esbuild@0.28.2": true,
-    "@prisma/engines@6.19.3": true,
-    "prisma@6.19.3": true,
-    "@prisma/client@6.19.3": true
+    "@auth0/auth0-nuxt": "1.2.1",
+    "@prisma/client": "6.19.3",
+    "nuxt": "4.6.1",
+    "vue": "3.5.43",
+    "vue-router": "5.4.0"
   },
   "devDependencies": {
-    "@types/node": "^26.6.3",
-    "dotenv": "^18.0.4",
-    "prisma": "^6.19.3"
+    "@types/node": "26.6.5",
+    "dotenv": "18.0.7",
+    "prisma": "6.19.3",
+    "sass": "1.105.1"
+  },
+  "allowScripts": {
+    "@prisma/client@6.19.3": true,
+    "@prisma/engines@6.19.3": true,
+    "esbuild@0.28.2": true,
+    "prisma@6.19.3": true,
+    "@parcel/watcher@2.6.0": true
   }
 }
