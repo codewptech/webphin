@@ -1,137 +1,124 @@
 <script setup lang="ts">
-import BaseButton from "~~/app/components/ui/BaseButton.vue";
-import SectionEyebrow from "~~/app/components/ui/SectionEyebrow.vue";
-import { services } from "~~/app/config/services";
+import BaseButton from '~~/app/components/ui/BaseButton.vue';
 
-interface BlueprintLayer {
-  number: string;
-  title: string;
-  description: string;
-  examples: readonly string[];
+type CapabilityIcon =
+  | 'website'
+  | 'application'
+  | 'data'
+  | 'infrastructure'
+  | 'automation'
+  | 'support';
+
+interface HeroCapability {
+  label: string;
+  icon: CapabilityIcon;
 }
 
-const capabilities: readonly string[] = services.map(
-  (service) => service.shortTitle,
-);
+const capabilities: readonly HeroCapability[] = [
+  {
+    label: 'Websites',
+    icon: 'website',
+  },
+  {
+    label: 'Applications',
+    icon: 'application',
+  },
+  {
+    label: 'Backend & Data',
+    icon: 'data',
+  },
+  {
+    label: 'Infrastructure',
+    icon: 'infrastructure',
+  },
+  {
+    label: 'Automation & AI',
+    icon: 'automation',
+  },
+  {
+    label: 'Maintenance & Support',
+    icon: 'support',
+  },
+] as const;
 
-const blueprintLayers: readonly BlueprintLayer[] = [
+const blueprintLayers = [
   {
-    number: "01",
-    title: "Experience",
-    description: "The interfaces and digital touchpoints people actually use.",
-    examples: ["Websites", "Portals", "Interfaces"],
+    label: 'Experience',
+    detail: 'Interfaces · journeys · content',
   },
   {
-    number: "02",
-    title: "Application",
-    description:
-      "The workflows, business logic and software behind the experience.",
-    examples: ["Applications", "Workflows", "Integrations"],
+    label: 'Application',
+    detail: 'Logic · workflows · software',
   },
   {
-    number: "03",
-    title: "Systems",
-    description:
-      "The data, APIs and infrastructure that keep everything connected.",
-    examples: ["Backend", "Database", "Infrastructure"],
+    label: 'Systems',
+    detail: 'Data · APIs · integrations',
   },
   {
-    number: "04",
-    title: "Operations",
-    description:
-      "The automation, deployment and support required after launch.",
-    examples: ["Automation", "Deployment", "Support"],
+    label: 'Operations',
+    detail: 'Infrastructure · deployment · support',
   },
-];
+] as const;
 </script>
 
 <template>
   <section class="home-hero">
-    <div class="home-hero__background" aria-hidden="true">
-      <div class="home-hero__grid" />
-      <div class="home-hero__glow home-hero__glow--red" />
-      <div class="home-hero__glow home-hero__glow--blue" />
-    </div>
-
-    <div class="page-container home-hero__container">
-      <div class="home-hero__content">
-        <SectionEyebrow class="home-hero__eyebrow">
-          Technology built around real requirements
-        </SectionEyebrow>
-
-        <h1 class="home-hero__title">
-          Build the technology your business
-
-          <span class="home-hero__title-accent"> actually needs. </span>
-        </h1>
-
-        <p class="home-hero__description">
-          Webphin designs and builds websites, applications, backend systems,
-          integrations, infrastructure and automation by starting with the
-          requirement — not by forcing every project into the same solution.
-        </p>
-
-        <div class="home-hero__actions">
-          <BaseButton to="/contact" size="lg">
-            Discuss Your Project
-          </BaseButton>
-
-          <BaseButton to="/work" variant="secondary" size="lg">
-            Explore Our Work
-          </BaseButton>
-        </div>
-
-        <div class="home-hero__principle">
-          <span class="home-hero__principle-line" aria-hidden="true" />
-
-          <p class="home-hero__principle-copy">
-            Understand the problem first. Choose the technology second.
+    <div class="page-container">
+      <div class="home-hero__main">
+        <div class="home-hero__content">
+          <p class="home-hero__eyebrow">
+            Technology built around real requirements
           </p>
-        </div>
-      </div>
 
-      <div class="home-hero__visual">
-        <article class="blueprint">
-          <div class="blueprint__brand-accent" aria-hidden="true">
-            <span
-              class="blueprint__brand-accent-part blueprint__brand-accent-part--blue"
-            />
-            <span
-              class="blueprint__brand-accent-part blueprint__brand-accent-part--magenta"
-            />
-            <span
-              class="blueprint__brand-accent-part blueprint__brand-accent-part--red"
-            />
-            <span
-              class="blueprint__brand-accent-part blueprint__brand-accent-part--orange"
-            />
+          <h1 class="home-hero__title">
+            Build the technology your business
+
+            <span class="home-hero__title-accent"> actually needs. </span>
+          </h1>
+
+          <p class="home-hero__description">
+            Webphin designs and builds practical digital systems — from websites
+            and applications to backend platforms, integrations, infrastructure
+            and automation — starting with the requirement rather than forcing a
+            predetermined technology.
+          </p>
+
+          <div class="home-hero__actions">
+            <BaseButton to="/contact" variant="primary" size="lg">
+              Discuss Your Project
+            </BaseButton>
+
+            <BaseButton to="/work" variant="secondary" size="lg">
+              Explore Our Work
+            </BaseButton>
           </div>
 
-          <header class="blueprint__header">
-            <div class="blueprint__header-copy">
-              <span class="blueprint__eyebrow"> Solution blueprint </span>
+          <div class="home-hero__principle">
+            <span class="home-hero__principle-mark" aria-hidden="true" />
 
-              <h2 class="blueprint__title">Start with the requirement.</h2>
-            </div>
+            <p>Understand the problem first. Choose the technology second.</p>
+          </div>
+        </div>
 
-            <span class="blueprint__status">
-              <span class="blueprint__status-dot" aria-hidden="true" />
+        <div class="solution-blueprint">
+          <div class="solution-blueprint__accent" />
 
-              Requirement first
-            </span>
-          </header>
+          <div class="solution-blueprint__header">
+            <span class="solution-blueprint__label"> Solution blueprint </span>
 
-          <div class="blueprint__requirement">
-            <span class="blueprint__requirement-label">
+            <span class="solution-blueprint__status"> Requirement-led </span>
+          </div>
+
+          <div class="solution-blueprint__requirement">
+            <span class="solution-blueprint__section-label">
               Business requirement
             </span>
 
-            <p class="blueprint__requirement-text">
-              Understand the goals, users, constraints, existing systems and
-              resources before deciding what should be built.
-            </p>
+            <h2 class="solution-blueprint__requirement-title">
+              Start with what the system needs to achieve.
+            </h2>
 
-            <div class="blueprint__requirement-tags">
+            <div class="solution-blueprint__requirement-points">
               <span>Goals</span>
               <span>Users</span>
               <span>Constraints</span>
@@ -139,71 +126,165 @@ const blueprintLayers: readonly BlueprintLayer[] = [
             </div>
           </div>
 
-          <div class="blueprint__divider">
-            <span> Translate the requirement into the right system </span>
+          <div class="solution-blueprint__divider">
+            <span />
+
+            <span class="solution-blueprint__divider-mark" aria-hidden="true">
+              ↓
+            </span>
+
+            <span />
           </div>
 
-          <div class="blueprint__layers">
-            <article
+          <div class="solution-blueprint__layers">
+            <div
               v-for="layer in blueprintLayers"
-              :key="layer.number"
-              class="blueprint-layer"
+              :key="layer.label"
+              class="solution-blueprint__layer"
             >
-              <div class="blueprint-layer__number">
-                {{ layer.number }}
-              </div>
+              <span class="solution-blueprint__layer-label">
+                {{ layer.label }}
+              </span>
 
-              <div class="blueprint-layer__content">
-                <div class="blueprint-layer__copy">
-                  <h3 class="blueprint-layer__title">
-                    {{ layer.title }}
-                  </h3>
-
-                  <p class="blueprint-layer__description">
-                    {{ layer.description }}
-                  </p>
-                </div>
-
-                <div class="blueprint-layer__examples">
-                  <span
-                    v-for="example in layer.examples"
-                    :key="example"
-                    class="blueprint-layer__example"
-                  >
-                    {{ example }}
-                  </span>
-                </div>
-              </div>
-            </article>
+              <span class="solution-blueprint__layer-detail">
+                {{ layer.detail }}
+              </span>
+            </div>
           </div>
 
-          <footer class="blueprint__outcome">
-            <div class="blueprint__outcome-copy">
-              <span class="blueprint__outcome-label"> The objective </span>
+          <div class="solution-blueprint__outcome">
+            <span class="solution-blueprint__outcome-label"> Outcome </span>
 
-              <strong class="blueprint__outcome-title">
-                The right system — not the biggest system.
-              </strong>
-            </div>
-
-            <span class="blueprint__outcome-mark" aria-hidden="true"> → </span>
-          </footer>
-        </article>
+            <strong> The right system — not the biggest system. </strong>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="page-container home-hero__capabilities-container">
       <div class="home-hero__capabilities">
-        <span class="home-hero__capabilities-label"> What we work across </span>
+        <p class="home-hero__capabilities-label">What we work across</p>
 
-        <div class="home-hero__capabilities-list">
-          <span
+        <div class="home-hero__capability-list">
+          <div
             v-for="capability in capabilities"
-            :key="capability"
-            class="home-hero__capability"
+            :key="capability.label"
+            class="hero-capability"
           >
-            {{ capability }}
-          </span>
+            <span class="hero-capability__icon" aria-hidden="true">
+              <!-- Websites -->
+              <svg
+                v-if="capability.icon === 'website'"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+
+                <path d="M3 8.5H21" />
+                <path d="M6.5 6.25H6.51" />
+                <path d="M9 6.25H9.01" />
+              </svg>
+
+              <!-- Applications -->
+              <svg
+                v-else-if="capability.icon === 'application'"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <rect x="3" y="3" width="7" height="7" rx="1.5" />
+
+                <rect x="14" y="3" width="7" height="7" rx="1.5" />
+
+                <rect x="3" y="14" width="7" height="7" rx="1.5" />
+
+                <rect x="14" y="14" width="7" height="7" rx="1.5" />
+              </svg>
+
+              <!-- Backend & Data -->
+              <svg
+                v-else-if="capability.icon === 'data'"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <ellipse cx="12" cy="5.5" rx="7" ry="3" />
+
+                <path
+                  d="
+                    M5 5.5V12
+                    C5 13.7 8.1 15 12 15
+                    C15.9 15 19 13.7 19 12
+                    V5.5
+                  "
+                />
+
+                <path
+                  d="
+                    M5 12V18.5
+                    C5 20.2 8.1 21.5 12 21.5
+                    C15.9 21.5 19 20.2 19 18.5
+                    V12
+                  "
+                />
+              </svg>
+
+              <!-- Infrastructure -->
+              <svg
+                v-else-if="capability.icon === 'infrastructure'"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <rect x="4" y="3" width="16" height="7" rx="2" />
+
+                <rect x="4" y="14" width="16" height="7" rx="2" />
+
+                <path d="M7.5 6.5H7.51" />
+                <path d="M7.5 17.5H7.51" />
+                <path d="M11 6.5H17" />
+                <path d="M11 17.5H17" />
+              </svg>
+
+              <!-- Automation & AI -->
+              <svg
+                v-else-if="capability.icon === 'automation'"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <circle cx="12" cy="12" r="3" />
+
+                <circle cx="5" cy="6" r="2" />
+
+                <circle cx="19" cy="6" r="2" />
+
+                <circle cx="5" cy="18" r="2" />
+
+                <circle cx="19" cy="18" r="2" />
+
+                <path d="M7 7.5L9.5 9.7" />
+                <path d="M17 7.5L14.5 9.7" />
+                <path d="M7 16.5L9.5 14.3" />
+                <path d="M17 16.5L14.5 14.3" />
+              </svg>
+
+              <!-- Maintenance & Support -->
+              <svg v-else viewBox="0 0 24 24" fill="none">
+                <path
+                  d="
+                    M12 3
+                    L19 6
+                    V11
+                    C19 15.5 16.2 19.2 12 21
+                    C7.8 19.2 5 15.5 5 11
+                    V6
+                    L12 3Z
+                  "
+                />
+
+                <path d="M9 12L11 14L15.5 9.5" />
+              </svg>
+            </span>
+
+            <span class="hero-capability__label">
+              {{ capability.label }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -211,551 +292,630 @@ const blueprintLayers: readonly BlueprintLayer[] = [
 </template>
 
 <style scoped lang="scss">
-@use "~~/app/assets/scss/abstracts/variables" as *;
-@use "~~/app/assets/scss/abstracts/mixins" as *;
+@use '~~/app/assets/scss/abstracts/variables' as *;
+
+// --------------------------------------------------
+// Hero
+// --------------------------------------------------
 
 .home-hero {
   position: relative;
+
   overflow: hidden;
-  background: linear-gradient(180deg, #f9fafb 0%, $color-white 72%);
+
+  padding: clamp(5rem, 9vw, 8rem) 0 clamp(2rem, 4vw, 3rem);
+
+  background:
+    radial-gradient(circle at 88% 16%, rgb(20 103 153 / 7%), transparent 28%),
+    radial-gradient(circle at 72% 48%, rgb(227 40 47 / 4%), transparent 25%),
+    $color-white;
 }
 
-.home-hero__background {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
+// --------------------------------------------------
+// Main hero layout
+// --------------------------------------------------
 
-.home-hero__grid {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 75%;
-  opacity: 0.32;
-  background-image:
-    linear-gradient(rgb(17 19 23 / 3%) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(17 19 23 / 3%) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: linear-gradient(to bottom, rgb(0 0 0 / 70%), transparent);
-}
-
-.home-hero__glow {
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  filter: blur(130px);
-  opacity: 0.06;
-}
-
-.home-hero__glow--red {
-  top: -170px;
-  right: -110px;
-  background: $color-brand-red;
-}
-
-.home-hero__glow--blue {
-  bottom: 5%;
-  left: -260px;
-  background: $color-brand-blue;
-}
-
-.home-hero__container {
-  position: relative;
-  z-index: 1;
+.home-hero__main {
   display: grid;
-  align-items: center;
-  gap: 4rem;
-  min-height: calc(100vh - 76px);
-  padding-top: clamp(5rem, 9vw, 8.5rem);
-  padding-bottom: clamp(4rem, 7vw, 6.5rem);
 
-  @include lg {
+  gap: clamp(3rem, 7vw, 6.5rem);
+
+  align-items: center;
+
+  @media (min-width: 1024px) {
     grid-template-columns:
-      minmax(0, 1.05fr)
-      minmax(430px, 0.95fr);
-    gap: clamp(4rem, 6vw, 6.5rem);
+      minmax(0, 1.02fr)
+      minmax(430px, 0.98fr);
   }
 }
 
+// --------------------------------------------------
+// Hero content
+// --------------------------------------------------
+
 .home-hero__content {
-  position: relative;
-  max-width: 720px;
+  max-width: 760px;
 }
 
 .home-hero__eyebrow {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.15rem;
+
+  color: $color-brand-red;
+
+  font-size: 0.68rem;
+  font-weight: 750;
+
+  line-height: 1;
+
+  letter-spacing: 0.095em;
+
+  text-transform: uppercase;
 }
 
 .home-hero__title {
-  max-width: 800px;
-  margin-bottom: 1.75rem;
-  font-size: clamp(3rem, 6vw, 5.5rem);
-  line-height: 0.98;
-  letter-spacing: -0.055em;
+  max-width: 760px;
+
+  color: $color-black;
+
+  font-family: $font-heading;
+
+  font-size: clamp(3rem, 6vw, 5.7rem);
+  font-weight: 700;
+
+  line-height: 0.96;
+
+  letter-spacing: -0.058em;
 }
 
 .home-hero__title-accent {
   display: block;
+
   color: $color-brand-red;
 }
 
 .home-hero__description {
-  max-width: 680px;
+  max-width: 650px;
+
+  margin-top: 1.6rem;
+
   color: $color-text-secondary;
-  font-size: clamp(1.05rem, 1.7vw, 1.22rem);
-  line-height: 1.72;
+
+  font-size: clamp(1rem, 1.4vw, 1.12rem);
+
+  line-height: 1.78;
 }
+
+// --------------------------------------------------
+// Hero actions
+// --------------------------------------------------
 
 .home-hero__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.85rem;
-  margin-top: 2.25rem;
+  align-items: center;
+
+  gap: 0.8rem;
+
+  margin-top: 1.9rem;
 }
+
+// --------------------------------------------------
+// Hero principle
+// --------------------------------------------------
 
 .home-hero__principle {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.85rem;
+  display: grid;
+
+  grid-template-columns:
+    auto
+    minmax(0, 1fr);
+
+  align-items: start;
+
+  gap: 0.8rem;
+
   max-width: 560px;
-  margin-top: 1.75rem;
+
+  margin-top: 1.8rem;
+  padding-top: 1.45rem;
+
+  border-top: 1px solid $color-border;
 }
 
-.home-hero__principle-line {
-  flex-shrink: 0;
-  width: 22px;
-  height: 2px;
-  margin-top: 0.62rem;
+.home-hero__principle-mark {
+  position: relative;
+
+  width: 8px;
+  height: 8px;
+
+  margin-top: 0.4rem;
+
   background: $color-brand-red;
+
+  border-radius: 50%;
+
+  &::before {
+    content: '';
+
+    position: absolute;
+
+    inset: -5px;
+
+    border: 1px solid rgb(227 40 47 / 18%);
+    border-radius: 50%;
+  }
+}
+
+.home-hero__principle p {
+  color: $color-text-muted;
+
+  font-size: 0.77rem;
+  font-weight: 600;
+
+  line-height: 1.6;
+}
+
+// --------------------------------------------------
+// Solution blueprint
+// --------------------------------------------------
+
+.solution-blueprint {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+
+  background: $color-white;
+
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+
+  box-shadow: 0 30px 80px rgb(17 19 23 / 7%);
+}
+
+.solution-blueprint__accent {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+  left: 0;
+
+  height: 3px;
+
+  background: linear-gradient(
+    90deg,
+    $color-brand-red 0%,
+    $color-brand-red 32%,
+    $color-brand-orange 32%,
+    $color-brand-orange 50%,
+    $color-brand-blue 50%,
+    $color-brand-blue 72%,
+    $color-brand-magenta 72%,
+    $color-brand-magenta 88%,
+    $color-brand-yellow 88%,
+    $color-brand-yellow 100%
+  );
+}
+
+.solution-blueprint__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 1rem;
+
+  padding-bottom: 1.4rem;
+
+  border-bottom: 1px solid $color-border;
+}
+
+.solution-blueprint__label {
+  color: $color-black;
+
+  font-family: $font-heading;
+
+  font-size: 0.94rem;
+  font-weight: 700;
+
+  letter-spacing: -0.02em;
+}
+
+.solution-blueprint__status {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 28px;
+
+  padding-inline: 0.7rem;
+
+  color: $color-text-muted;
+
+  background: $color-background-soft;
+
+  font-size: 0.58rem;
+  font-weight: 650;
+
+  border: 1px solid $color-border;
   border-radius: $radius-pill;
 }
 
-.home-hero__principle-copy {
-  color: $color-text-muted;
-  font-size: 0.84rem;
-  line-height: 1.65;
+// --------------------------------------------------
+// Requirement
+// --------------------------------------------------
+
+.solution-blueprint__requirement {
+  padding-block: 1.55rem;
 }
 
-.home-hero__visual {
-  width: 100%;
-  max-width: 590px;
-  margin-inline: auto;
-
-  @include lg {
-    margin-right: 0;
-  }
-}
-
-.blueprint {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(
-    145deg,
-    rgb(255 255 255 / 99%),
-    rgb(249 250 251 / 98%)
-  );
-  border: 1px solid $color-border-strong;
-  border-radius: $radius-xl;
-  box-shadow:
-    0 32px 90px rgb(17 19 23 / 9%),
-    0 5px 18px rgb(17 19 23 / 4%);
-}
-
-.blueprint__brand-accent {
-  display: grid;
-  grid-template-columns:
-    1.15fr
-    0.85fr
-    0.9fr
-    1.3fr;
-  width: 100%;
-  height: 4px;
-}
-
-.blueprint__brand-accent-part {
+.solution-blueprint__section-label {
   display: block;
-}
 
-.blueprint__brand-accent-part--blue {
-  background: $color-brand-blue;
-}
+  margin-bottom: 0.6rem;
 
-.blueprint__brand-accent-part--magenta {
-  background: $color-brand-magenta;
-}
-
-.blueprint__brand-accent-part--red {
-  background: $color-brand-red;
-}
-
-.blueprint__brand-accent-part--orange {
-  background: $color-brand-orange;
-}
-
-.blueprint__header {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  padding: 1.6rem;
-  border-bottom: 1px solid $color-border;
-
-  @include sm {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 2rem;
-    padding: 1.75rem;
-  }
-}
-
-.blueprint__header-copy {
-  min-width: 0;
-}
-
-.blueprint__eyebrow {
-  display: block;
-  margin-bottom: 0.45rem;
   color: $color-brand-red;
-  font-size: 0.65rem;
+
+  font-size: 0.59rem;
   font-weight: 750;
-  letter-spacing: 0.1em;
+
+  letter-spacing: 0.09em;
+
   text-transform: uppercase;
 }
 
-.blueprint__title {
+.solution-blueprint__requirement-title {
+  max-width: 430px;
+
   color: $color-black;
-  font-size: clamp(1.25rem, 2vw, 1.55rem);
+
+  font-family: $font-heading;
+
+  font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+
   line-height: 1.25;
-  letter-spacing: -0.03em;
+
+  letter-spacing: -0.035em;
 }
 
-.blueprint__status {
-  display: inline-flex;
-  align-items: center;
-  flex-shrink: 0;
-  gap: 0.5rem;
-  width: fit-content;
-  color: $color-text-muted;
-  font-size: 0.68rem;
-  font-weight: 650;
-  white-space: nowrap;
-}
-
-.blueprint__status-dot {
-  width: 7px;
-  height: 7px;
-  background: $color-brand-red;
-  border-radius: 50%;
-  box-shadow: 0 0 0 4px rgb(227 40 47 / 8%);
-}
-
-.blueprint__requirement {
-  margin: 1.5rem;
-  padding: 1.35rem;
-  background: linear-gradient(145deg, $color-background-soft, $color-white);
-  border: 1px solid $color-border;
-  border-radius: $radius-md;
-}
-
-.blueprint__requirement-label {
-  display: block;
-  margin-bottom: 0.55rem;
-  color: $color-black;
-  font-size: 0.72rem;
-  font-weight: 750;
-  letter-spacing: 0.035em;
-}
-
-.blueprint__requirement-text {
-  max-width: 470px;
-  color: $color-text-secondary;
-  font-size: 0.82rem;
-  line-height: 1.65;
-}
-
-.blueprint__requirement-tags {
+.solution-blueprint__requirement-points {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
-  margin-top: 1rem;
 
-  span {
-    display: inline-flex;
-    align-items: center;
-    min-height: 28px;
-    padding-inline: 0.7rem;
-    color: $color-text-secondary;
-    background: $color-white;
-    font-size: 0.65rem;
-    font-weight: 650;
-    border: 1px solid $color-border;
-    border-radius: $radius-pill;
-  }
+  gap: 0.45rem;
+
+  margin-top: 1.15rem;
 }
 
-.blueprint__divider {
+.solution-blueprint__requirement-points span {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 28px;
+
+  padding-inline: 0.7rem;
+
+  color: $color-text-muted;
+
+  background: $color-background-soft;
+
+  font-size: 0.6rem;
+  font-weight: 600;
+
+  border: 1px solid $color-border;
+  border-radius: $radius-pill;
+}
+
+// --------------------------------------------------
+// Blueprint divider
+// --------------------------------------------------
+
+.solution-blueprint__divider {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto
+    minmax(0, 1fr);
+
+  align-items: center;
+
+  gap: 0.8rem;
+}
+
+.solution-blueprint__divider > span:not(.solution-blueprint__divider-mark) {
+  height: 1px;
+
+  background: $color-border;
+}
+
+.solution-blueprint__divider-mark {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  padding-inline: 1.5rem;
-  color: $color-text-muted;
-  font-size: 0.64rem;
-  font-weight: 650;
-  letter-spacing: 0.025em;
+  justify-content: center;
 
-  &::before,
-  &::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: $color-border;
-  }
+  width: 28px;
+  height: 28px;
 
-  span {
-    text-align: center;
-  }
+  color: $color-brand-red;
+
+  background: $color-white;
+
+  font-size: 0.78rem;
+
+  border: 1px solid $color-border;
+  border-radius: 50%;
 }
 
-.blueprint__layers {
+// --------------------------------------------------
+// Blueprint layers
+// --------------------------------------------------
+
+.solution-blueprint__layers {
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 1.5rem 0;
+
+  padding-block: 1.35rem;
 }
 
-.blueprint-layer {
+.solution-blueprint__layer {
   display: grid;
+
   grid-template-columns:
-    40px
-    minmax(0, 1fr);
+    minmax(95px, 0.34fr)
+    minmax(0, 0.66fr);
+
   gap: 1rem;
-  padding-block: 1rem;
+
+  padding-block: 0.85rem;
+
   border-bottom: 1px solid $color-border;
 
-  &:first-child {
-    padding-top: 0;
-  }
-
   &:last-child {
-    padding-bottom: 1.25rem;
     border-bottom: 0;
   }
 }
 
-.blueprint-layer__number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  color: $color-text-muted;
-  background: $color-background-soft;
-  font-size: 0.62rem;
-  font-weight: 750;
-  border: 1px solid $color-border;
-  border-radius: $radius-sm;
-}
-
-.blueprint-layer:first-child .blueprint-layer__number {
-  color: $color-white;
-  background: $color-brand-red;
-  border-color: $color-brand-red;
-}
-
-.blueprint-layer__content {
-  min-width: 0;
-}
-
-.blueprint-layer__copy {
-  margin-bottom: 0.8rem;
-}
-
-.blueprint-layer__title {
-  margin-bottom: 0.25rem;
+.solution-blueprint__layer-label {
   color: $color-black;
-  font-family: $font-heading;
-  font-size: 0.95rem;
-  line-height: 1.35;
+
+  font-size: 0.69rem;
+  font-weight: 700;
 }
 
-.blueprint-layer__description {
-  max-width: 430px;
+.solution-blueprint__layer-detail {
   color: $color-text-muted;
-  font-size: 0.73rem;
-  line-height: 1.55;
+
+  font-size: 0.67rem;
+
+  line-height: 1.5;
 }
 
-.blueprint-layer__examples {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
+// --------------------------------------------------
+// Blueprint outcome
+// --------------------------------------------------
 
-.blueprint-layer__example {
-  display: inline-flex;
-  align-items: center;
-  min-height: 25px;
-  padding-inline: 0.62rem;
-  color: $color-text-secondary;
-  background: transparent;
-  font-size: 0.62rem;
-  font-weight: 600;
+.solution-blueprint__outcome {
+  padding: 1.1rem 1.15rem;
+
+  background: $color-background-soft;
+
   border: 1px solid $color-border;
-  border-radius: $radius-pill;
-}
-
-.blueprint__outcome {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  margin: 0 1.5rem 1.5rem;
-  padding: 1rem 1.1rem;
-  background: $color-dark-surface;
   border-radius: $radius-md;
 }
 
-.blueprint__outcome-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
+.solution-blueprint__outcome-label {
+  display: block;
 
-.blueprint__outcome-label {
-  color: $color-dark-text-muted;
-  font-size: 0.58rem;
+  margin-bottom: 0.38rem;
+
+  color: $color-brand-red;
+
+  font-size: 0.56rem;
   font-weight: 750;
-  letter-spacing: 0.1em;
+
+  letter-spacing: 0.08em;
+
   text-transform: uppercase;
 }
 
-.blueprint__outcome-title {
-  color: $color-white;
-  font-size: 0.82rem;
+.solution-blueprint__outcome strong {
+  color: $color-black;
+
+  font-family: $font-heading;
+
+  font-size: 0.85rem;
+  font-weight: 650;
+
   line-height: 1.45;
 }
 
-.blueprint__outcome-mark {
-  flex-shrink: 0;
-  color: $color-brand-red;
-  font-size: 1.3rem;
-}
-
-.home-hero__capabilities-container {
-  position: relative;
-  z-index: 1;
-}
+// --------------------------------------------------
+// What we work across
+// --------------------------------------------------
 
 .home-hero__capabilities {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding-block: 1.4rem;
-  border-top: 1px solid $color-border;
+  flex-wrap: wrap;
+  align-items: center;
 
-  @include lg {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-  }
+  gap: clamp(1.5rem, 3vw, 2.5rem) clamp(2rem, 5vw, 5rem);
+
+  margin-top: clamp(3.5rem, 7vw, 6rem);
+  padding-block: clamp(1.5rem, 3vw, 1.9rem);
+
+  border-top: 1px solid $color-border;
+  border-bottom: 1px solid $color-border;
 }
 
 .home-hero__capabilities-label {
-  flex-shrink: 0;
+  flex: 0 1 180px;
+
   color: $color-text-muted;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+
+  font-size: 0.66rem;
+  font-weight: 750;
+
+  letter-spacing: 0.085em;
+
   text-transform: uppercase;
 }
 
-.home-hero__capabilities-list {
+// --------------------------------------------------
+// Fluid capability list
+// --------------------------------------------------
+
+.home-hero__capability-list {
   display: flex;
+  flex: 1 1 760px;
   flex-wrap: wrap;
-  gap: 0.6rem 1.3rem;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: clamp(0.9rem, 2vw, 1.4rem) clamp(1.25rem, 2.2vw, 2.25rem);
+
+  min-width: 0;
 }
 
-.home-hero__capability {
-  position: relative;
+// --------------------------------------------------
+// Capability item
+// --------------------------------------------------
+
+.hero-capability {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 0.7rem;
+
+  flex: 0 0 auto;
+
+  min-width: 0;
+
+  cursor: default;
+}
+
+.hero-capability__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  width: clamp(34px, 2.5vw, 38px);
+  height: clamp(34px, 2.5vw, 38px);
+
   color: $color-text-secondary;
-  font-size: 0.77rem;
-  font-weight: 600;
 
-  &:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: -0.72rem;
-    width: 3px;
-    height: 3px;
-    background: $color-brand-red;
-    border-radius: 50%;
-    transform: translateY(-50%);
-  }
+  background: $color-background-soft;
+
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+
+  transition:
+    color $transition-fast,
+    background-color $transition-fast,
+    border-color $transition-fast,
+    transform $transition-fast;
 }
 
-@media (max-width: 575px) {
-  .home-hero__container {
-    gap: 3rem;
+.hero-capability__icon svg {
+  width: 18px;
+  height: 18px;
+
+  overflow: visible;
+
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hero-capability__label {
+  min-width: 0;
+
+  color: $color-text-secondary;
+
+  font-size: clamp(0.7rem, 0.8vw, 0.77rem);
+  font-weight: 650;
+
+  line-height: 1.35;
+
+  white-space: nowrap;
+
+  transition: color $transition-fast;
+}
+
+.hero-capability:hover .hero-capability__icon {
+  color: $color-brand-red;
+
+  background: rgb(227 40 47 / 4%);
+
+  border-color: rgb(227 40 47 / 18%);
+
+  transform: translateY(-1px);
+}
+
+.hero-capability:hover .hero-capability__label {
+  color: $color-black;
+}
+
+// --------------------------------------------------
+// Small-screen refinements
+// --------------------------------------------------
+
+@media (max-width: 767px) {
+  .home-hero {
     padding-top: 4.5rem;
   }
 
   .home-hero__title {
-    font-size: clamp(2.75rem, 13vw, 3.8rem);
+    font-size: clamp(2.9rem, 13vw, 4.3rem);
   }
 
-  .home-hero__actions {
-    align-items: stretch;
-
-    :deep(.base-button) {
-      width: 100%;
-    }
-  }
-
-  .blueprint__requirement {
-    margin: 1.25rem;
-    padding: 1.15rem;
-  }
-
-  .blueprint__divider {
-    padding-inline: 1.25rem;
-
-    span {
-      max-width: 190px;
-    }
-  }
-
-  .blueprint__layers {
-    padding: 1.35rem 1.25rem 0;
-  }
-
-  .blueprint-layer {
-    grid-template-columns:
-      34px
-      minmax(0, 1fr);
-    gap: 0.8rem;
-  }
-
-  .blueprint-layer__number {
-    width: 30px;
-    height: 30px;
-  }
-
-  .blueprint__outcome {
-    margin: 0 1.25rem 1.25rem;
-  }
-
-  .home-hero__capabilities-list {
-    gap: 0.6rem 1.15rem;
+  .solution-blueprint {
+    border-radius: $radius-lg;
   }
 }
 
+@media (max-width: 575px) {
+  .home-hero__actions {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+  .solution-blueprint__layer {
+    grid-template-columns: 1fr;
+
+    gap: 0.35rem;
+  }
+
+  .home-hero__capabilities-label {
+    flex-basis: 100%;
+  }
+
+  .home-hero__capability-list {
+    justify-content: flex-start;
+  }
+
+  .hero-capability__label {
+    white-space: normal;
+  }
+}
+
+// --------------------------------------------------
+// Reduced motion
+// --------------------------------------------------
+
 @media (prefers-reduced-motion: reduce) {
-  .home-hero__glow {
-    filter: none;
+  .hero-capability__icon,
+  .hero-capability__label {
+    transition: none;
+  }
+
+  .hero-capability:hover .hero-capability__icon {
+    transform: none;
   }
 }
 </style>
