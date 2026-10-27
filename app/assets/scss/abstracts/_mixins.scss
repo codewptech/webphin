@@ -28,3 +28,22 @@
   outline: 3px solid rgb(227 40 47 / 20%);
   outline-offset: 3px;
 }
+
+// Align the first text line's center with the fixed-size marker's center.
+// `lh` uses the text element's own typography, including responsive changes.
+@mixin sequence-first-line {
+  margin-block-start: calc((#{$sequence-marker-size} - 1lh) / 2);
+}
+
+@mixin sequence-row($first-line) {
+  display: grid;
+  grid-template-columns: $sequence-marker-size minmax(0, 1fr);
+  align-items: start;
+  column-gap: $sequence-marker-gap;
+  min-width: 0;
+  min-block-size: $sequence-marker-size;
+
+  #{$first-line} {
+    @include sequence-first-line;
+  }
+}

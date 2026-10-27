@@ -1,72 +1,11 @@
 <script setup lang="ts">
+import { homeContent } from "~~/app/config/content/home";
+import SequenceMarker from "~~/app/components/ui/SequenceMarker.vue";
 import SectionEyebrow from "~~/app/components/ui/SectionEyebrow.vue";
 import SectionWrapper from "~~/app/components/ui/SectionWrapper.vue";
 
-interface ProblemItem {
-  number: string;
-  title: string;
-  description: string;
-}
-
-interface ApproachItem {
-  number: string;
-  title: string;
-  description: string;
-}
-
-const problems: readonly ProblemItem[] = [
-  {
-    number: "01",
-    title: "The requirement is still unclear",
-    description:
-      "A project can move into design or development before the real users, goals, constraints and priorities have been understood.",
-  },
-  {
-    number: "02",
-    title: "The solution is larger than the problem",
-    description:
-      "More tools, services and infrastructure do not automatically create a better system. They can also add cost and complexity.",
-  },
-  {
-    number: "03",
-    title: "Operational cost appears later",
-    description:
-      "Hosting, deployment, maintenance, monitoring and third-party dependencies are sometimes considered only after the build is nearly complete.",
-  },
-  {
-    number: "04",
-    title: "The system becomes difficult to own",
-    description:
-      "A solution can technically work while still being hard to maintain, explain, extend or hand over to the people who need to operate it.",
-  },
-];
-
-const approach: readonly ApproachItem[] = [
-  {
-    number: "01",
-    title: "Understand before proposing",
-    description:
-      "Clarify the business problem, the people involved, what already exists and what a successful outcome should actually look like.",
-  },
-  {
-    number: "02",
-    title: "Evaluate the trade-offs",
-    description:
-      "Compare complexity, cost, speed, control, maintainability and future requirements instead of choosing technology in isolation.",
-  },
-  {
-    number: "03",
-    title: "Design for the full lifecycle",
-    description:
-      "Think about deployment, infrastructure, data, monitoring and ongoing operation while the system is being designed — not as an afterthought.",
-  },
-  {
-    number: "04",
-    title: "Build only what earns its place",
-    description:
-      "Keep the architecture as simple as the requirement allows, while leaving enough structure for the system to remain useful as needs change.",
-  },
-];
+const content = homeContent.approach;
+const { problems, approach } = content;
 </script>
 
 <template>
@@ -75,20 +14,19 @@ const approach: readonly ApproachItem[] = [
       <header class="home-approach__header">
         <div class="home-approach__heading">
           <SectionEyebrow class="home-approach__eyebrow">
-            Why approach matters
+            {{ content.eyebrow }}
           </SectionEyebrow>
 
           <h2 class="home-approach__title">
-            A better build starts with
-            <span class="home-approach__title-accent"> better decisions. </span>
+            {{ content.title }}
+            <span class="home-approach__title-accent">
+              {{ content.accent }}
+            </span>
           </h2>
         </div>
 
         <p class="home-approach__intro">
-          Technology decisions affect much more than the first version of a
-          project. They influence cost, reliability, maintenance, future changes
-          and how easily the system can be understood by the people who depend
-          on it.
+          {{ content.intro }}
         </p>
       </header>
 
@@ -96,25 +34,20 @@ const approach: readonly ApproachItem[] = [
         <article class="approach-column approach-column--problems">
           <div class="approach-column__header">
             <span class="approach-column__label">
-              Where projects can go wrong
+              {{ content.problemColumn.label }}
             </span>
 
             <p class="approach-column__summary">
-              The difficult part is often not writing the code. It is making the
-              right decisions before and around it.
+              {{ content.problemColumn.summary }}
             </p>
           </div>
 
           <div class="approach-column__items">
             <article
               v-for="problem in problems"
-              :key="problem.number"
+              :key="problem.title"
               class="approach-item approach-item--problem"
             >
-              <span class="approach-item__number">
-                {{ problem.number }}
-              </span>
-
               <div class="approach-item__content">
                 <h3 class="approach-item__title">
                   {{ problem.title }}
@@ -137,24 +70,21 @@ const approach: readonly ApproachItem[] = [
         <article class="approach-column approach-column--webphin">
           <div class="approach-column__header">
             <span class="approach-column__label">
-              How Webphin approaches it
+              {{ content.webphinColumn.label }}
             </span>
 
             <p class="approach-column__summary">
-              Start from the requirement, expose the trade-offs and make the
-              technical choices deliberately.
+              {{ content.webphinColumn.summary }}
             </p>
           </div>
 
-          <div class="approach-column__items">
-            <article
-              v-for="item in approach"
-              :key="item.number"
+          <ol class="approach-column__items" role="list">
+            <li
+              v-for="(item, index) in approach"
+              :key="item.title"
               class="approach-item approach-item--webphin"
             >
-              <span class="approach-item__number">
-                {{ item.number }}
-              </span>
+              <SequenceMarker :step="index + 1" variant="inverse" />
 
               <div class="approach-item__content">
                 <h3 class="approach-item__title">
@@ -165,8 +95,8 @@ const approach: readonly ApproachItem[] = [
                   {{ item.description }}
                 </p>
               </div>
-            </article>
-          </div>
+            </li>
+          </ol>
         </article>
       </div>
 
@@ -176,11 +106,12 @@ const approach: readonly ApproachItem[] = [
         </div>
 
         <div class="home-approach__principle-content">
-          <span class="home-approach__principle-label"> The principle </span>
+          <span class="home-approach__principle-label">
+            {{ content.principleContent.principleLabel }}
+          </span>
 
           <p class="home-approach__principle-text">
-            The goal is not to use the most technology. The goal is to use the
-            right amount of technology for the problem being solved.
+            {{ content.principleContent.principleText }}
           </p>
         </div>
       </div>
@@ -313,17 +244,13 @@ const approach: readonly ApproachItem[] = [
 
 .approach-item {
   display: grid;
-  grid-template-columns:
-    38px
-    minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.9rem;
   padding: 1.4rem 1.5rem;
   border-bottom: 1px solid $color-border;
 
   @include sm {
-    grid-template-columns:
-      44px
-      minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.1rem;
     padding: 1.55rem 1.75rem;
   }
@@ -333,28 +260,16 @@ const approach: readonly ApproachItem[] = [
   }
 }
 
+.approach-column__items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 .approach-item--webphin {
+  @include sequence-row("> .approach-item__content > .approach-item__title");
+
   border-bottom-color: $color-dark-border;
-}
-
-.approach-item__number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  color: $color-text-muted;
-  background: $color-background-soft;
-  font-size: 0.62rem;
-  font-weight: 750;
-  border: 1px solid $color-border;
-  border-radius: $radius-sm;
-}
-
-.approach-item--webphin .approach-item__number {
-  color: $color-white;
-  background: rgb(255 255 255 / 7%);
-  border-color: rgb(255 255 255 / 11%);
 }
 
 .approach-item__content {

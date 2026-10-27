@@ -1,34 +1,11 @@
 <script setup lang="ts">
-import BaseButton from '~~/app/components/ui/BaseButton.vue';
-import SectionEyebrow from '~~/app/components/ui/SectionEyebrow.vue';
-import SectionWrapper from '~~/app/components/ui/SectionWrapper.vue';
+import { homeContent } from "~~/app/config/content/home";
+import BaseButton from "~~/app/components/ui/BaseButton.vue";
+import SectionEyebrow from "~~/app/components/ui/SectionEyebrow.vue";
+import SectionWrapper from "~~/app/components/ui/SectionWrapper.vue";
 
-const architectureLayers = [
-  {
-    label: 'Application',
-    technologies: ['Nuxt'],
-  },
-  {
-    label: 'Data',
-    technologies: ['Neon PostgreSQL'],
-  },
-  {
-    label: 'Storage',
-    technologies: ['Cloudflare R2'],
-  },
-  {
-    label: 'Runtime',
-    technologies: ['VPS', 'Docker', 'Nginx'],
-  },
-] as const;
-
-const operationalCapabilities = [
-  'Analytics',
-  'Monitoring',
-  'Database-backed forms',
-  'Object storage',
-  'Deployment workflow',
-] as const;
+const content = homeContent.engineeringOutcome;
+const { architectureLayers, operationalCapabilities } = content;
 </script>
 
 <template>
@@ -36,27 +13,23 @@ const operationalCapabilities = [
     <section class="engineering-outcome">
       <div class="engineering-outcome__content">
         <SectionEyebrow class="engineering-outcome__eyebrow">
-          A practical engineering outcome
+          {{ content.eyebrow }}
         </SectionEyebrow>
 
         <h2 class="engineering-outcome__title">
-          Lower recurring cost.
+          {{ content.title }}
 
           <span class="engineering-outcome__title-accent">
-            More capability where it matters.
+            {{ content.accent }}
           </span>
         </h2>
 
         <p class="engineering-outcome__description">
-          For one website project, Webphin reworked the infrastructure around
-          the actual requirements instead of continuing with unnecessary
-          recurring services.
+          {{ content.descriptions[0] }}
         </p>
 
         <p class="engineering-outcome__description">
-          The result was a leaner operating setup while retaining the
-          application, database, storage, monitoring, analytics and deployment
-          capabilities the project required.
+          {{ content.descriptions[1] }}
         </p>
 
         <div class="engineering-outcome__principle">
@@ -66,81 +39,70 @@ const operationalCapabilities = [
           />
 
           <p>
-            Good infrastructure is not about using more technology. It is about
-            choosing the right technology for the job and operating it
-            efficiently.
+            {{ content.principle.description }}
           </p>
         </div>
 
         <BaseButton to="/services/infrastructure-deployment" variant="text">
-          Explore Infrastructure & Deployment
+          {{ content.servicesInfrastructureDeploymentAction }}
         </BaseButton>
       </div>
 
       <div class="outcome-panel">
         <div class="outcome-panel__header">
           <div class="outcome-panel__header-copy">
-            <p class="outcome-panel__eyebrow">One project outcome</p>
+            <p class="outcome-panel__eyebrow">
+              {{ content.outcomePanel.eyebrow }}
+            </p>
 
             <h3 class="outcome-panel__title">
-              Leaner infrastructure.
-              <span> Strong operational capability. </span>
+              {{ content.outcomePanel.title }}
+              <span> {{ content.outcomePanel.accent }} </span>
             </h3>
 
             <p class="outcome-panel__description">
-              The architecture was reorganized around what the project actually
-              needed to run reliably, remain maintainable and avoid unnecessary
-              recurring overhead.
+              {{ content.outcomePanel.description }}
             </p>
           </div>
 
           <span class="outcome-panel__badge">
-            Requirement-led architecture
+            {{ content.outcomePanel.badge }}
           </span>
         </div>
 
         <div class="outcome-panel__summary">
           <div class="outcome-summary">
-            <span class="outcome-summary__mark" aria-hidden="true"> 01 </span>
-
             <div>
               <strong class="outcome-summary__title">
-                Reduce unnecessary overhead
+                {{ content.outcomeDimensions[0].title }}
               </strong>
 
               <p class="outcome-summary__text">
-                Remove recurring services and infrastructure that are not
-                justified by the requirement.
+                {{ content.outcomeDimensions[0].description }}
               </p>
             </div>
           </div>
 
           <div class="outcome-summary">
-            <span class="outcome-summary__mark" aria-hidden="true"> 02 </span>
-
             <div>
               <strong class="outcome-summary__title">
-                Keep useful capability
+                {{ content.outcomeDimensions[1].title }}
               </strong>
 
               <p class="outcome-summary__text">
-                Preserve the systems and operational features that genuinely
-                support the website.
+                {{ content.outcomeDimensions[1].description }}
               </p>
             </div>
           </div>
 
           <div class="outcome-summary">
-            <span class="outcome-summary__mark" aria-hidden="true"> 03 </span>
-
             <div>
               <strong class="outcome-summary__title">
-                Build for ongoing operation
+                {{ content.outcomeDimensions[2].title }}
               </strong>
 
               <p class="outcome-summary__text">
-                Consider deployment, storage, monitoring and maintenance as part
-                of the architecture.
+                {{ content.outcomeDimensions[2].description }}
               </p>
             </div>
           </div>
@@ -150,11 +112,11 @@ const operationalCapabilities = [
           <div class="outcome-panel__section-header">
             <div>
               <p class="outcome-panel__section-eyebrow">
-                Modern delivery stack
+                {{ content.outcomePanel.sectionEyebrows[0] }}
               </p>
 
               <h4 class="outcome-panel__section-title">
-                A practical architecture, layer by layer.
+                {{ content.outcomePanel.sectionTitles[0] }}
               </h4>
             </div>
           </div>
@@ -186,12 +148,11 @@ const operationalCapabilities = [
           <div class="outcome-panel__section-header">
             <div>
               <p class="outcome-panel__section-eyebrow">
-                Operational capabilities
+                {{ content.outcomePanel.sectionEyebrows[1] }}
               </p>
 
               <h4 class="outcome-panel__section-title">
-                The leaner setup still supports the work happening around the
-                website.
+                {{ content.outcomePanel.sectionTitles[1] }}
               </h4>
             </div>
           </div>
@@ -212,8 +173,7 @@ const operationalCapabilities = [
         </div>
 
         <p class="outcome-panel__note">
-          Infrastructure requirements, operating costs and potential savings
-          vary by project, workload, traffic and architecture.
+          {{ content.outcomePanel.note }}
         </p>
       </div>
     </section>
@@ -221,7 +181,7 @@ const operationalCapabilities = [
 </template>
 
 <style scoped lang="scss">
-@use '~~/app/assets/scss/abstracts/variables' as *;
+@use "~~/app/assets/scss/abstracts/variables" as *;
 
 // --------------------------------------------------
 // Section
@@ -326,7 +286,7 @@ const operationalCapabilities = [
   border-radius: 50%;
 
   &::before {
-    content: '';
+    content: "";
 
     position: absolute;
 
@@ -365,7 +325,7 @@ const operationalCapabilities = [
   box-shadow: 0 30px 80px rgb(17 19 23 / 7%);
 
   &::before {
-    content: '';
+    content: "";
 
     position: absolute;
 
@@ -519,27 +479,6 @@ const operationalCapabilities = [
 
     border-right: 0;
   }
-}
-
-.outcome-summary__mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 34px;
-  height: 34px;
-
-  color: $color-brand-red;
-
-  background: rgb(227 40 47 / 6%);
-
-  font-size: 0.58rem;
-  font-weight: 750;
-
-  letter-spacing: 0.04em;
-
-  border: 1px solid rgb(227 40 47 / 10%);
-  border-radius: 50%;
 }
 
 .outcome-summary__title {
@@ -792,7 +731,7 @@ const operationalCapabilities = [
   }
 
   .outcome-summary {
-    flex-direction: row;
+    flex-direction: column;
     align-items: flex-start;
 
     gap: 0.9rem;

@@ -1,15 +1,27 @@
+export type ServiceIcon =
+  | "website"
+  | "application"
+  | "data"
+  | "infrastructure"
+  | "automation"
+  | "support";
+
+export type ServiceLayer =
+  "Experience" | "Application" | "Systems" | "Operations" | "Cross-layer";
+
 export interface ServiceItem {
-  number: string;
   title: string;
   shortTitle: string;
   slug: string;
   description: string;
   capabilities: readonly string[];
+  whenUseful: string;
+  icon: ServiceIcon;
+  layer: ServiceLayer;
 }
 
 export const services: readonly ServiceItem[] = [
   {
-    number: "01",
     title: "Websites & Digital Presence",
     shortTitle: "Websites",
     slug: "/services/websites-digital-presence",
@@ -22,9 +34,13 @@ export const services: readonly ServiceItem[] = [
       "Performance",
       "SEO foundations",
     ],
+    whenUseful:
+      "Useful when the existing website no longer represents the business, the digital presence needs to be rebuilt, or a clearer and more maintainable web experience is required.",
+    icon: "website",
+    layer: "Experience",
   },
+
   {
-    number: "02",
     title: "Applications & Software",
     shortTitle: "Applications",
     slug: "/services/applications-software",
@@ -37,9 +53,13 @@ export const services: readonly ServiceItem[] = [
       "Custom workflows",
       "Product development",
     ],
+    whenUseful:
+      "Useful when a business process needs custom behaviour, users need dedicated workflows, or the requirement has grown beyond what a conventional website can handle.",
+    icon: "application",
+    layer: "Application",
   },
+
   {
-    number: "03",
     title: "Backend, Data & Integrations",
     shortTitle: "Backend & Data",
     slug: "/services/backend-data-integrations",
@@ -52,9 +72,13 @@ export const services: readonly ServiceItem[] = [
       "Third-party integrations",
       "Data workflows",
     ],
+    whenUseful:
+      "Useful when information needs to move between systems, applications require dependable business logic, or disconnected tools and data need to work together.",
+    icon: "data",
+    layer: "Systems",
   },
+
   {
-    number: "04",
     title: "Infrastructure & Deployment",
     shortTitle: "Infrastructure",
     slug: "/services/infrastructure-deployment",
@@ -67,9 +91,13 @@ export const services: readonly ServiceItem[] = [
       "Cloud infrastructure",
       "Monitoring",
     ],
+    whenUseful:
+      "Useful when deployment has become fragile or manual, infrastructure costs need attention, or the system needs a more reliable operating environment.",
+    icon: "infrastructure",
+    layer: "Operations",
   },
+
   {
-    number: "05",
     title: "Automation & AI",
     shortTitle: "Automation & AI",
     slug: "/services/automation-ai",
@@ -82,9 +110,13 @@ export const services: readonly ServiceItem[] = [
       "Data processing",
       "System orchestration",
     ],
+    whenUseful:
+      "Useful when people repeatedly move information, perform predictable manual steps, or could benefit from carefully applied automation or AI assistance.",
+    icon: "automation",
+    layer: "Cross-layer",
   },
+
   {
-    number: "06",
     title: "Maintenance & Support",
     shortTitle: "Maintenance & Support",
     slug: "/services/maintenance-support",
@@ -97,5 +129,9 @@ export const services: readonly ServiceItem[] = [
       "Improvements",
       "Technical support",
     ],
+    whenUseful:
+      "Useful when an existing system needs dependable updates, monitoring, fixes, improvements or ongoing technical ownership after launch.",
+    icon: "support",
+    layer: "Operations",
   },
 ];

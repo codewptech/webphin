@@ -12,21 +12,22 @@
   "dependencies": {
     "@auth0/auth0-nuxt": "1.2.1",
     "@prisma/client": "6.19.3",
+    "markdown-it": "15.0.3",
     "nuxt": "4.6.1",
-    "vue": "3.5.43",
+    "vue": "3.5.44",
     "vue-router": "5.4.0"
   },
   "devDependencies": {
     "@types/node": "26.6.5",
-    "dotenv": "18.0.7",
+    "dotenv": "18.0.8",
     "prisma": "6.19.3",
     "sass": "1.105.1"
   },
   "allowScripts": {
+    "@parcel/watcher@2.6.0": true,
     "@prisma/client@6.19.3": true,
     "@prisma/engines@6.19.3": true,
     "esbuild@0.28.2": true,
-    "prisma@6.19.3": true,
-    "@parcel/watcher@2.6.0": true
+    "prisma@6.19.3": true
   }
 }

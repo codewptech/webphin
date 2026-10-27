@@ -1,73 +1,12 @@
 <script setup lang="ts">
-import BaseButton from '~~/app/components/ui/BaseButton.vue';
-import SectionEyebrow from '~~/app/components/ui/SectionEyebrow.vue';
-import SectionWrapper from '~~/app/components/ui/SectionWrapper.vue';
+import { homeContent } from "~~/app/config/content/home";
+import SequenceMarker from "~~/app/components/ui/SequenceMarker.vue";
+import BaseButton from "~~/app/components/ui/BaseButton.vue";
+import SectionEyebrow from "~~/app/components/ui/SectionEyebrow.vue";
+import SectionWrapper from "~~/app/components/ui/SectionWrapper.vue";
 
-const pricingFactors = [
-  {
-    number: '01',
-    title: 'Scope',
-    description:
-      'What actually needs to be designed, developed and delivered for the project to work well.',
-  },
-  {
-    number: '02',
-    title: 'Complexity',
-    description:
-      'The amount of custom behaviour, business logic, user flow and technical decision-making involved.',
-  },
-  {
-    number: '03',
-    title: 'Integrations',
-    description:
-      'External services, APIs, authentication, payments, automation and the movement of data between systems.',
-  },
-  {
-    number: '04',
-    title: 'Infrastructure',
-    description:
-      'Hosting, databases, storage, deployment, monitoring and the operating environment behind the product.',
-  },
-  {
-    number: '05',
-    title: 'Ongoing needs',
-    description:
-      'Maintenance, improvements, support and the technical work required after the initial launch.',
-  },
-] as const;
-
-const proposalSteps = [
-  {
-    number: '01',
-    title: 'Understand the requirement',
-    description:
-      'Start with the business problem, users, priorities and constraints.',
-  },
-  {
-    number: '02',
-    title: 'Define the practical scope',
-    description:
-      'Separate what is necessary now from what can reasonably come later.',
-  },
-  {
-    number: '03',
-    title: 'Evaluate the trade-offs',
-    description:
-      'Consider technology, complexity, operating cost and maintainability.',
-  },
-  {
-    number: '04',
-    title: 'Recommend an approach',
-    description:
-      'Propose a solution that fits the requirement rather than forcing a package.',
-  },
-  {
-    number: '05',
-    title: 'Agree on the work',
-    description:
-      'Clarify the deliverables, responsibilities and commercial proposal before development begins.',
-  },
-] as const;
+const content = homeContent.pricingPreview;
+const { pricingFactors, proposalSteps } = content;
 </script>
 
 <template>
@@ -76,29 +15,29 @@ const proposalSteps = [
       <header class="pricing-preview__header">
         <div class="pricing-preview__heading">
           <SectionEyebrow class="pricing-preview__eyebrow">
-            Pricing
+            {{ content.eyebrow }}
           </SectionEyebrow>
 
           <h2 class="pricing-preview__title">
-            Pricing should follow the requirement —
+            {{ content.title }}
 
-            <span class="pricing-preview__title-accent"> not a package. </span>
+            <span class="pricing-preview__title-accent">
+              {{ content.accent }}
+            </span>
           </h2>
         </div>
 
         <div class="pricing-preview__introduction">
           <p>
-            Different projects involve different levels of design, development,
-            integration, infrastructure and ongoing technical work.
+            {{ content.introduction[0] }}
           </p>
 
           <p>
-            Webphin first understands what the project actually needs, then
-            works toward a practical scope and commercial proposal.
+            {{ content.introduction[1] }}
           </p>
 
           <BaseButton to="/pricing" variant="text">
-            Explore Pricing
+            {{ content.pricingAction }}
           </BaseButton>
         </div>
       </header>
@@ -107,29 +46,24 @@ const proposalSteps = [
         <div class="pricing-factors">
           <div class="pricing-factors__header">
             <p class="pricing-preview__section-eyebrow">
-              What shapes the project
+              {{ content.factorsIntro.eyebrow }}
             </p>
 
             <h3 class="pricing-preview__section-title">
-              The price reflects the work behind the solution.
+              {{ content.factorsIntro.title }}
             </h3>
 
             <p class="pricing-factors__description">
-              A useful proposal considers more than the number of pages or
-              screens. The structure underneath the project matters too.
+              {{ content.factorsIntro.description }}
             </p>
           </div>
 
           <div class="pricing-factors__list">
             <article
               v-for="factor in pricingFactors"
-              :key="factor.number"
+              :key="factor.title"
               class="pricing-factor"
             >
-              <span class="pricing-factor__number">
-                {{ factor.number }}
-              </span>
-
               <div class="pricing-factor__content">
                 <h4 class="pricing-factor__title">
                   {{ factor.title }}
@@ -146,29 +80,26 @@ const proposalSteps = [
         <div class="proposal-process">
           <div class="proposal-process__header">
             <p class="pricing-preview__section-eyebrow">
-              How we arrive at a proposal
+              {{ content.proposalIntro.eyebrow }}
             </p>
 
             <h3 class="pricing-preview__section-title">
-              Understand first. Price second.
+              {{ content.proposalIntro.title }}
             </h3>
 
             <p class="proposal-process__description">
-              The proposal should come after enough of the requirement is
-              understood to make sensible technical and commercial decisions.
+              {{ content.proposalIntro.description }}
             </p>
           </div>
 
-          <ol class="proposal-process__steps">
+          <ol class="proposal-process__steps" role="list">
             <li
-              v-for="step in proposalSteps"
-              :key="step.number"
+              v-for="(step, index) in proposalSteps"
+              :key="step.title"
               class="proposal-step"
             >
               <div class="proposal-step__rail">
-                <span class="proposal-step__number">
-                  {{ step.number }}
-                </span>
+                <SequenceMarker :step="index + 1" />
 
                 <span class="proposal-step__line" aria-hidden="true" />
               </div>
@@ -192,22 +123,23 @@ const proposalSteps = [
           <span class="pricing-preview__principle-mark" aria-hidden="true" />
 
           <div>
-            <p class="pricing-preview__principle-label">A simple principle</p>
+            <p class="pricing-preview__principle-label">
+              {{ content.principleContent.principleLabel }}
+            </p>
 
             <p class="pricing-preview__principle-text">
-              You should understand what you are paying for before development
-              begins.
+              {{ content.principleContent.principleText }}
             </p>
           </div>
         </div>
 
         <div class="pricing-preview__actions">
           <BaseButton to="/pricing" variant="secondary">
-            Explore Pricing
+            {{ content.principle.pricingAction }}
           </BaseButton>
 
           <BaseButton to="/contact" variant="primary">
-            Discuss Your Project
+            {{ content.principle.contactAction }}
           </BaseButton>
         </div>
       </div>
@@ -216,7 +148,8 @@ const proposalSteps = [
 </template>
 
 <style scoped lang="scss">
-@use '~~/app/assets/scss/abstracts/variables' as *;
+@use "~~/app/assets/scss/abstracts/variables" as *;
+@use "~~/app/assets/scss/abstracts/mixins" as *;
 
 // --------------------------------------------------
 // Section
@@ -381,28 +314,13 @@ const proposalSteps = [
 .pricing-factor {
   display: grid;
 
-  grid-template-columns:
-    52px
-    minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
 
   gap: 1rem;
 
   padding-block: 1.35rem;
 
   border-bottom: 1px solid $color-border;
-}
-
-.pricing-factor__number {
-  padding-top: 0.15rem;
-
-  color: $color-brand-red;
-
-  font-family: $font-heading;
-
-  font-size: 0.68rem;
-  font-weight: 750;
-
-  letter-spacing: 0.055em;
 }
 
 .pricing-factor__content {
@@ -476,42 +394,15 @@ const proposalSteps = [
 }
 
 .proposal-step {
-  display: grid;
-
-  grid-template-columns:
-    42px
-    minmax(0, 1fr);
-
-  gap: 1rem;
+  @include sequence-row("> .proposal-step__content > .proposal-step__title");
 }
 
 .proposal-step__rail {
+  align-self: stretch;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.proposal-step__number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  flex: 0 0 auto;
-
-  width: 34px;
-  height: 34px;
-
-  color: $color-brand-red;
-
-  background: $color-white;
-
-  font-size: 0.57rem;
-  font-weight: 750;
-
-  letter-spacing: 0.04em;
-
-  border: 1px solid rgb(227 40 47 / 18%);
-  border-radius: 50%;
 }
 
 .proposal-step__line {
@@ -521,7 +412,7 @@ const proposalSteps = [
 
   flex: 1;
 
-  min-height: 34px;
+  min-height: $sequence-marker-size;
 
   background: $color-border;
 }
@@ -539,8 +430,6 @@ const proposalSteps = [
 }
 
 .proposal-step__title {
-  padding-top: 0.35rem;
-
   color: $color-black;
 
   font-family: $font-heading;
@@ -615,7 +504,7 @@ const proposalSteps = [
   border-radius: 50%;
 
   &::before {
-    content: '';
+    content: "";
 
     position: absolute;
 
@@ -684,24 +573,9 @@ const proposalSteps = [
   }
 
   .pricing-factor {
-    grid-template-columns:
-      38px
-      minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
 
     gap: 0.8rem;
-  }
-
-  .proposal-step {
-    grid-template-columns:
-      38px
-      minmax(0, 1fr);
-
-    gap: 0.8rem;
-  }
-
-  .proposal-step__number {
-    width: 32px;
-    height: 32px;
   }
 
   .pricing-preview__actions {

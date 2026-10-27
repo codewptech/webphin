@@ -1,64 +1,15 @@
 <script setup lang="ts">
-import BaseButton from '~~/app/components/ui/BaseButton.vue';
+import { homeContent } from "~~/app/config/content/home";
+import { services } from "~~/app/config/services";
+import BaseButton from "~~/app/components/ui/BaseButton.vue";
 
-type CapabilityIcon =
-  | 'website'
-  | 'application'
-  | 'data'
-  | 'infrastructure'
-  | 'automation'
-  | 'support';
+const content = homeContent.hero;
+const { blueprintLayers } = content;
 
-interface HeroCapability {
-  label: string;
-  icon: CapabilityIcon;
-}
-
-const capabilities: readonly HeroCapability[] = [
-  {
-    label: 'Websites',
-    icon: 'website',
-  },
-  {
-    label: 'Applications',
-    icon: 'application',
-  },
-  {
-    label: 'Backend & Data',
-    icon: 'data',
-  },
-  {
-    label: 'Infrastructure',
-    icon: 'infrastructure',
-  },
-  {
-    label: 'Automation & AI',
-    icon: 'automation',
-  },
-  {
-    label: 'Maintenance & Support',
-    icon: 'support',
-  },
-] as const;
-
-const blueprintLayers = [
-  {
-    label: 'Experience',
-    detail: 'Interfaces · journeys · content',
-  },
-  {
-    label: 'Application',
-    detail: 'Logic · workflows · software',
-  },
-  {
-    label: 'Systems',
-    detail: 'Data · APIs · integrations',
-  },
-  {
-    label: 'Operations',
-    detail: 'Infrastructure · deployment · support',
-  },
-] as const;
+const capabilities = services.map((service) => ({
+  label: service.shortTitle,
+  icon: service.icon,
+}));
 </script>
 
 <template>
@@ -67,36 +18,33 @@ const blueprintLayers = [
       <div class="home-hero__main">
         <div class="home-hero__content">
           <p class="home-hero__eyebrow">
-            Technology built around real requirements
+            {{ content.eyebrow }}
           </p>
 
           <h1 class="home-hero__title">
-            Build the technology your business
+            {{ content.title }}
 
-            <span class="home-hero__title-accent"> actually needs. </span>
+            <span class="home-hero__title-accent"> {{ content.accent }} </span>
           </h1>
 
           <p class="home-hero__description">
-            Webphin designs and builds practical digital systems — from websites
-            and applications to backend platforms, integrations, infrastructure
-            and automation — starting with the requirement rather than forcing a
-            predetermined technology.
+            {{ content.description }}
           </p>
 
           <div class="home-hero__actions">
             <BaseButton to="/contact" variant="primary" size="lg">
-              Discuss Your Project
+              {{ content.contactAction }}
             </BaseButton>
 
             <BaseButton to="/work" variant="secondary" size="lg">
-              Explore Our Work
+              {{ content.workAction }}
             </BaseButton>
           </div>
 
           <div class="home-hero__principle">
             <span class="home-hero__principle-mark" aria-hidden="true" />
 
-            <p>Understand the problem first. Choose the technology second.</p>
+            <p>{{ content.principle.description }}</p>
           </div>
         </div>
 
@@ -104,25 +52,29 @@ const blueprintLayers = [
           <div class="solution-blueprint__accent" />
 
           <div class="solution-blueprint__header">
-            <span class="solution-blueprint__label"> Solution blueprint </span>
+            <span class="solution-blueprint__label">
+              {{ content.blueprint.label }}
+            </span>
 
-            <span class="solution-blueprint__status"> Requirement-led </span>
+            <span class="solution-blueprint__status">
+              {{ content.blueprint.status }}
+            </span>
           </div>
 
           <div class="solution-blueprint__requirement">
             <span class="solution-blueprint__section-label">
-              Business requirement
+              {{ content.blueprint.requirementLabel }}
             </span>
 
             <h2 class="solution-blueprint__requirement-title">
-              Start with what the system needs to achieve.
+              {{ content.blueprint.requirementTitle }}
             </h2>
 
             <div class="solution-blueprint__requirement-points">
-              <span>Goals</span>
-              <span>Users</span>
-              <span>Constraints</span>
-              <span>Budget</span>
+              <span>{{ content.blueprint.requirementPoints[0] }}</span>
+              <span>{{ content.blueprint.requirementPoints[1] }}</span>
+              <span>{{ content.blueprint.requirementPoints[2] }}</span>
+              <span>{{ content.blueprint.requirementPoints[3] }}</span>
             </div>
           </div>
 
@@ -153,15 +105,19 @@ const blueprintLayers = [
           </div>
 
           <div class="solution-blueprint__outcome">
-            <span class="solution-blueprint__outcome-label"> Outcome </span>
+            <span class="solution-blueprint__outcome-label">
+              {{ content.blueprint.outcome.outcomeLabel }}
+            </span>
 
-            <strong> The right system — not the biggest system. </strong>
+            <strong> {{ content.blueprint.outcome.statement }} </strong>
           </div>
         </div>
       </div>
 
       <div class="home-hero__capabilities">
-        <p class="home-hero__capabilities-label">What we work across</p>
+        <p class="home-hero__capabilities-label">
+          {{ content.capabilitiesLabel }}
+        </p>
 
         <div class="home-hero__capability-list">
           <div
@@ -292,7 +248,7 @@ const blueprintLayers = [
 </template>
 
 <style scoped lang="scss">
-@use '~~/app/assets/scss/abstracts/variables' as *;
+@use "~~/app/assets/scss/abstracts/variables" as *;
 
 // --------------------------------------------------
 // Hero
@@ -435,7 +391,7 @@ const blueprintLayers = [
   border-radius: 50%;
 
   &::before {
-    content: '';
+    content: "";
 
     position: absolute;
 

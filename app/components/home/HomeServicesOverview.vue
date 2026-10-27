@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { NuxtLink } from '#components';
+import { homeContent } from "~~/app/config/content/home";
+import { NuxtLink } from "#components";
 
-import BaseButton from '~~/app/components/ui/BaseButton.vue';
-import SectionEyebrow from '~~/app/components/ui/SectionEyebrow.vue';
-import SectionWrapper from '~~/app/components/ui/SectionWrapper.vue';
+import BaseButton from "~~/app/components/ui/BaseButton.vue";
+import SectionEyebrow from "~~/app/components/ui/SectionEyebrow.vue";
+import SectionWrapper from "~~/app/components/ui/SectionWrapper.vue";
 
-import { services, type ServiceItem } from '~~/app/config/services';
+import { services, type ServiceItem } from "~~/app/config/services";
+
+const content = homeContent.servicesOverview;
 
 const getServiceAriaLabel = (service: ServiceItem): string => {
   return `Explore ${service.title}`;
@@ -17,27 +20,23 @@ const getServiceAriaLabel = (service: ServiceItem): string => {
     <section class="services-overview">
       <aside class="services-overview__intro">
         <SectionEyebrow class="services-overview__eyebrow">
-          What we do
+          {{ content.eyebrow }}
         </SectionEyebrow>
 
         <h2 class="services-overview__title">
-          Technology across the
+          {{ content.title }}
           <span class="services-overview__title-accent">
-            whole digital system.
+            {{ content.accent }}
           </span>
         </h2>
 
         <p class="services-overview__description">
-          A project may begin with a website, an application, a backend problem,
-          an infrastructure decision or a repetitive process that should be
-          automated. Webphin works across those layers so the solution can be
-          designed around the requirement rather than around one predefined
-          service.
+          {{ content.description }}
         </p>
 
         <div class="services-overview__action">
           <BaseButton to="/services" variant="text">
-            Explore all services
+            {{ content.servicesAction }}
           </BaseButton>
         </div>
 
@@ -48,8 +47,7 @@ const getServiceAriaLabel = (service: ServiceItem): string => {
           />
 
           <p>
-            We recommend the parts a project needs — not every service simply
-            because we can provide it.
+            {{ content.principle.description }}
           </p>
         </div>
       </aside>
@@ -83,7 +81,7 @@ const getServiceAriaLabel = (service: ServiceItem): string => {
 
             <div class="service-row__footer">
               <span class="service-row__explore">
-                Explore service
+                {{ content.explore }}
 
                 <span class="service-row__explore-arrow" aria-hidden="true">
                   →
@@ -98,8 +96,8 @@ const getServiceAriaLabel = (service: ServiceItem): string => {
 </template>
 
 <style scoped lang="scss">
-@use '~~/app/assets/scss/abstracts/variables' as *;
-@use '~~/app/assets/scss/abstracts/mixins' as *;
+@use "~~/app/assets/scss/abstracts/variables" as *;
+@use "~~/app/assets/scss/abstracts/mixins" as *;
 
 // --------------------------------------------------
 // Main layout
@@ -228,7 +226,7 @@ const getServiceAriaLabel = (service: ServiceItem): string => {
     padding $transition-base;
 
   &::before {
-    content: '';
+    content: "";
 
     position: absolute;
 

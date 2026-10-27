@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import BaseButton from '~~/app/components/ui/BaseButton.vue';
-import SectionEyebrow from '~~/app/components/ui/SectionEyebrow.vue';
-import SectionWrapper from '~~/app/components/ui/SectionWrapper.vue';
+import { homeContent } from "~~/app/config/content/home";
+import BaseButton from "~~/app/components/ui/BaseButton.vue";
+import SectionEyebrow from "~~/app/components/ui/SectionEyebrow.vue";
+import SectionWrapper from "~~/app/components/ui/SectionWrapper.vue";
+
+const content = homeContent.projectCTA;
 </script>
 
 <template>
@@ -9,26 +12,24 @@ import SectionWrapper from '~~/app/components/ui/SectionWrapper.vue';
     <section class="project-cta">
       <div class="project-cta__content">
         <SectionEyebrow class="project-cta__eyebrow">
-          Start a conversation
+          {{ content.eyebrow }}
         </SectionEyebrow>
 
         <h2 class="project-cta__title">
-          Have a project in mind?
+          {{ content.title }}
 
           <span class="project-cta__title-accent">
-            Start with the requirement.
+            {{ content.accent }}
           </span>
         </h2>
 
         <p class="project-cta__description">
-          Tell us what you are trying to build, improve or solve. We can discuss
-          the requirement, constraints and practical options before deciding
-          what the right solution should look like.
+          {{ content.descriptions[0] }}
         </p>
 
         <div class="project-cta__actions">
           <BaseButton to="/contact" variant="primary" size="lg">
-            Discuss Your Project
+            {{ content.contactAction }}
           </BaseButton>
         </div>
 
@@ -36,8 +37,7 @@ import SectionWrapper from '~~/app/components/ui/SectionWrapper.vue';
           <span class="project-cta__reassurance-mark" aria-hidden="true" />
 
           <p>
-            No package selection required. You do not need to have the technical
-            solution figured out before starting the conversation.
+            {{ content.descriptions[1] }}
           </p>
         </div>
       </div>
@@ -46,33 +46,41 @@ import SectionWrapper from '~~/app/components/ui/SectionWrapper.vue';
         <div class="project-cta__visual-grid" />
 
         <div class="project-cta__visual-content">
-          <span class="project-cta__visual-label"> Requirement first </span>
+          <span class="project-cta__visual-label">
+            {{ content.visualContent.visualLabel }}
+          </span>
 
           <div class="project-cta__visual-flow">
-            <span class="project-cta__visual-step"> Problem </span>
+            <span class="project-cta__visual-step">
+              {{ content.visualFlow.visualSteps[0] }}
+            </span>
 
             <span class="project-cta__visual-arrow"> → </span>
 
-            <span class="project-cta__visual-step"> Requirement </span>
+            <span class="project-cta__visual-step">
+              {{ content.visualFlow.visualSteps[1] }}
+            </span>
 
             <span class="project-cta__visual-arrow"> → </span>
 
-            <span class="project-cta__visual-step"> Practical solution </span>
+            <span class="project-cta__visual-step">
+              {{ content.visualFlow.visualSteps[2] }}
+            </span>
           </div>
 
           <p class="project-cta__visual-statement">
-            The conversation can begin before the technology has been decided.
+            {{ content.visualContent.visualStatement }}
           </p>
         </div>
 
-        <span class="project-cta__visual-letter"> W </span>
+        <span class="project-cta__visual-letter"> {{ "W" }} </span>
       </div>
     </section>
   </SectionWrapper>
 </template>
 
 <style scoped lang="scss">
-@use '~~/app/assets/scss/abstracts/variables' as *;
+@use "~~/app/assets/scss/abstracts/variables" as *;
 
 // --------------------------------------------------
 // Section surface
@@ -199,7 +207,7 @@ import SectionWrapper from '~~/app/components/ui/SectionWrapper.vue';
   border-radius: 50%;
 
   &::before {
-    content: '';
+    content: "";
 
     position: absolute;
 
@@ -240,7 +248,7 @@ import SectionWrapper from '~~/app/components/ui/SectionWrapper.vue';
 }
 
 .project-cta__visual::before {
-  content: '';
+  content: "";
 
   position: absolute;
 

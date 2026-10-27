@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { NuxtLink } from '#components';
+import { homeContent } from "~~/app/config/content/home";
+import { NuxtLink } from "#components";
 
-import BaseButton from '~~/app/components/ui/BaseButton.vue';
-import SectionEyebrow from '~~/app/components/ui/SectionEyebrow.vue';
-import SectionWrapper from '~~/app/components/ui/SectionWrapper.vue';
+import BaseButton from "~~/app/components/ui/BaseButton.vue";
+import SectionEyebrow from "~~/app/components/ui/SectionEyebrow.vue";
+import SectionWrapper from "~~/app/components/ui/SectionWrapper.vue";
 
-import { workProjects } from '~~/app/config/projects';
+import { workProjects } from "~~/app/config/projects";
+
+const content = homeContent.featuredWork;
 </script>
 
 <template>
@@ -14,26 +17,26 @@ import { workProjects } from '~~/app/config/projects';
       <header class="home-work__header">
         <div class="home-work__heading">
           <SectionEyebrow class="home-work__eyebrow">
-            Selected work
+            {{ content.eyebrow }}
           </SectionEyebrow>
 
           <h2 class="home-work__title">
-            Real projects.
+            {{ content.title }}
 
             <span class="home-work__title-accent">
-              Different requirements.
+              {{ content.accent }}
             </span>
           </h2>
         </div>
 
         <div class="home-work__header-content">
           <p class="home-work__intro">
-            Every project starts with a different problem, audience and set of
-            constraints. The solution should follow those requirements rather
-            than a fixed formula.
+            {{ content.intro }}
           </p>
 
-          <BaseButton to="/work" variant="text"> Explore all work </BaseButton>
+          <BaseButton to="/work" variant="text">
+            {{ content.workAction }}
+          </BaseButton>
         </div>
       </header>
 
@@ -91,7 +94,7 @@ import { workProjects } from '~~/app/config/projects';
           </div>
 
           <div class="work-card__action">
-            <span class="work-card__action-label"> View project </span>
+            <span class="work-card__action-label"> {{ content.action }} </span>
 
             <span class="work-card__action-arrow" aria-hidden="true"> → </span>
           </div>
@@ -102,9 +105,7 @@ import { workProjects } from '~~/app/config/projects';
         <span class="home-work__closing-mark" aria-hidden="true" />
 
         <p>
-          The project stories will focus on the requirement, decisions,
-          implementation and practical outcome — not only the finished
-          interface.
+          {{ content.description }}
         </p>
       </div>
     </section>
@@ -112,7 +113,7 @@ import { workProjects } from '~~/app/config/projects';
 </template>
 
 <style scoped lang="scss">
-@use '~~/app/assets/scss/abstracts/variables' as *;
+@use "~~/app/assets/scss/abstracts/variables" as *;
 
 // --------------------------------------------------
 // Section
@@ -413,7 +414,7 @@ import { workProjects } from '~~/app/config/projects';
   position: relative;
 
   &::after {
-    content: '';
+    content: "";
 
     position: absolute;
 
@@ -490,7 +491,7 @@ import { workProjects } from '~~/app/config/projects';
   border-radius: 50%;
 
   &::before {
-    content: '';
+    content: "";
 
     position: absolute;
 
